@@ -1,0 +1,25 @@
+{
+  "name": "gql-bookings",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node src/index.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "apollo-datasource": "^0.6.3",
+    "apollo-server-express": "^2.9.12",
+    "cors": "^2.8.5",
+    "date-fns": "^2.8.1",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "mongoose": "^5.7.13",
+    "serverless": "^1.59.0",
+    "serverless-http": "^2.3.0"
+  },
+  "devDependencies": {}
+}
