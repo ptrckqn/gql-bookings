@@ -24,9 +24,9 @@ class AppointmentAPI extends DataSource {
 
       res = await Appointment.find({
         date: { $gte: startDate, $lt: endDate }
-      });
+      }).sort({ date: 1 });
     } else {
-      res = await Appointment.find({});
+      res = await Appointment.find({}).sort({ date: 1 });
     }
 
     return Array.isArray(res)
