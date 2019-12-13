@@ -46,21 +46,24 @@ const Grid = styled.div`
   padding: 20px 0;
 `;
 const A = styled.a`
-  background-color: ${props => (props.alt ? "#FF9393" : "#8EF3BA")};
+  background-color: #383b40;
   padding: 10px 15px;
   border-radius: 20px;
-  color: #000;
+  color: inherit;
   text-align: center;
   text-decoration: none;
+  width: 100%;
 `;
 
 const Button = styled.button`
   border: none;
-  background-color: ${props => (props.alt ? "#FF9393" : "#8EF3BA")};
+  background-color: #383b40;
+  color: inherit;
   font-family: inherit;
   padding: 10px 15px;
   border-radius: 20px;
   margin: 0 7.5px;
+  cursor: pointer;
 `;
 
 const Center = styled.div`
@@ -69,6 +72,13 @@ const Center = styled.div`
 
 const DayDetails = ({ day, setDay }) => {
   const [appointments, setAppoinments] = useState();
+
+  useEffect(() => {
+    //Creating an event listener which will call the function escFunction anytime a key is pressed.
+    document.addEventListener("keydown", e =>
+      e.keyCode === 27 ? setDay() : null
+    );
+  });
 
   useEffect(() => {
     getAppoinments(day);
@@ -152,10 +162,10 @@ const DayDetails = ({ day, setDay }) => {
           <h3>No appointments booked</h3>
         )}
         <Center>
-          <Button alt name="blockDay" onClick={handleClick}>
+          <Button name="blockDay" onClick={handleClick}>
             Block All Times
           </Button>
-          <Button alt name="cancelDay" onClick={handleClick}>
+          <Button name="cancelDay" onClick={handleClick}>
             Cancel All Appointments
           </Button>
         </Center>
