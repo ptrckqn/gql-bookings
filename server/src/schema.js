@@ -13,6 +13,11 @@ const typeDefs = gql`
     date: String!
   }
 
+  type UserUpdateResponse {
+    success: Boolean!
+    message: String
+  }
+
   type Mutation {
     bookAppoinment(
       name: String!
@@ -22,6 +27,8 @@ const typeDefs = gql`
     cancelAppoinment(date: String!): BookingUpdateResponse!
     bookDay(date: String!): BookingUpdateResponse!
     cancelDay(date: String!): BookingUpdateResponse!
+    registerUser(email: String!, password: String!): UserUpdateResponse!
+    loginUser(email: String!, password: String!): UserUpdateResponse!
   }
 
   type BookingUpdateResponse {

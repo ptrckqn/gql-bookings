@@ -14,6 +14,10 @@ module.exports = {
     bookDay: (_, { date }, { dataSources }) =>
       dataSources.appointmentAPI.bookDay({ date }),
     cancelDay: (_, { date }, { dataSources }) =>
-      dataSources.appointmentAPI.cancelDay({ date })
+      dataSources.appointmentAPI.cancelDay({ date }),
+    registerUser: (_, { email, password }, { dataSources }) =>
+      dataSources.userAPI.registerUser({ email, password }),
+    loginUser: (_, { email, password }, { dataSources }) =>
+      dataSources.userAPI.loginUser({ email, password })
   }
 };

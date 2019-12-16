@@ -7,6 +7,7 @@ const mongoose = require("mongoose");
 const cors = require("cors");
 
 const AppointmentAPI = require("./datasources/appointment");
+const UserAPI = require("./datasources/users");
 
 if (process.env.NODE_ENV !== "production") {
   require("dotenv").config();
@@ -28,7 +29,8 @@ const server = new ApolloServer({
   typeDefs,
   resolvers,
   dataSources: () => ({
-    appointmentAPI: new AppointmentAPI()
+    appointmentAPI: new AppointmentAPI(),
+    userAPI: new UserAPI()
   })
 });
 
