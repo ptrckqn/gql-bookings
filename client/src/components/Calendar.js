@@ -73,7 +73,7 @@ const Days = styled.div`
 
 const Day = styled.div`
   width: 100%;
-  height: 120px;
+  height: 80px;
   border: 1px solid #505050;
   color: ${props => (props.alt ? "#505050" : "#fff")};
   padding: 10px;
