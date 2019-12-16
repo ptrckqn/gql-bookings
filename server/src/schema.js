@@ -16,6 +16,7 @@ const typeDefs = gql`
   type UserUpdateResponse {
     success: Boolean!
     message: String
+    token: String
   }
 
   type Mutation {

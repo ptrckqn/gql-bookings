@@ -17,7 +17,9 @@ module.exports = {
       dataSources.appointmentAPI.cancelDay({ date }),
     registerUser: (_, { email, password }, { dataSources }) =>
       dataSources.userAPI.registerUser({ email, password }),
-    loginUser: (_, { email, password }, { dataSources }) =>
-      dataSources.userAPI.loginUser({ email, password })
+    loginUser: (_, { email, password }, { user, dataSources }) => {
+      if (user) return dataSources.userAPI.loginUser({ email, password });
+      return;
+    }
   }
 };

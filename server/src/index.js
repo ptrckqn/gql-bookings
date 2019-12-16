@@ -5,6 +5,7 @@ const typeDefs = require("./schema");
 const resolvers = require("./resolvers");
 const mongoose = require("mongoose");
 const cors = require("cors");
+const getUser = require("./middleware/getUser");
 
 const AppointmentAPI = require("./datasources/appointment");
 const UserAPI = require("./datasources/users");
@@ -28,10 +29,17 @@ app.use(cors());
 const server = new ApolloServer({
   typeDefs,
   resolvers,
-  dataSources: () => ({
-    appointmentAPI: new AppointmentAPI(),
-    userAPI: new UserAPI()
-  })
+  context: async ({ req }) => {
+    const token = req.headers.authorization || "";
+    const user = await getUser(token);
+    return { user };
+  },
+  dataSources: () => {
+    return {
+      appointmentAPI: new AppointmentAPI(),
+      userAPI: new UserAPI()
+    };
+  }
 });
 
 server.applyMiddleware({ app, path: "/graphql" });
