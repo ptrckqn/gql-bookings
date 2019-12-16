@@ -36,4 +36,4 @@ server.applyMiddleware({ app, path: "/graphql" });
 
 module.exports.graphqlHandler = serverless(app);
 
-app.listen(4000, () => console.log("🔥🔥🔥 on 4000"));
+app.listen(4000, () => console.log("Server on 4000"));

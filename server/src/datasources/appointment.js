@@ -72,7 +72,7 @@ class AppointmentAPI extends DataSource {
   async bookDay({ date }) {
     let day = setHours(new Date(date), 9);
     const endDay = setHours(day, 17);
-    while (day <= endDay) {
+    while (day < endDay) {
       let appoinment = new Appointment({
         name: "UNAVAILABLE",
         email: "UNAVAILABLE",
