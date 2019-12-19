@@ -23,7 +23,10 @@ const typeDefs = gql`
     bookAppoinment(
       name: String!
       email: String
+      phone: String
       date: String!
+      meeting: String!
+      location: String
     ): BookingUpdateResponse!
     cancelAppoinment(date: String!): BookingUpdateResponse!
     bookDay(date: String!): BookingUpdateResponse!

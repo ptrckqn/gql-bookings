@@ -1,6 +1,7 @@
 import React from "react";
 import { Switch, Route } from "react-router-dom";
 import { createGlobalStyle } from "styled-components";
+import { UserProvider } from "./context/userContext";
 import Nav from "./components/Nav";
 import Home from "./pages/Home";
 
@@ -25,13 +26,13 @@ const GlobalStyles = createGlobalStyle`
 
 const App = () => {
   return (
-    <>
+    <UserProvider value={{ email: "", token: "" }}>
       <GlobalStyles />
       <Nav />
       <Switch>
         <Route path="/" exact component={Home} />
       </Switch>
-    </>
+    </UserProvider>
   );
 };
 

@@ -41,11 +41,14 @@ class AppointmentAPI extends DataSource {
     return this.appointmentReducer(res);
   }
 
-  async bookAppoinment({ name, email, date }) {
+  async bookAppoinment({ name, email, phone, date, meeting, location }) {
     let appoinment = new Appointment({
-      name: name,
-      email: email,
-      date: new Date(date)
+      name,
+      email,
+      phone,
+      date: new Date(date),
+      meeting,
+      location
     });
 
     const res = await appoinment.save();

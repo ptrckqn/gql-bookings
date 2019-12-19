@@ -8,9 +8,19 @@ module.exports = {
   },
 
   Mutation: {
-    bookAppoinment: (_, { name, email, date }, { user, appointmentAPI }) => {
-      if (!user) return null;
-      return appointmentAPI.bookAppoinment({ name, email, date });
+    bookAppoinment: (
+      _,
+      { name, email, phone, date, meeting, location },
+      { appointmentAPI }
+    ) => {
+      return appointmentAPI.bookAppoinment({
+        name,
+        email,
+        phone,
+        date,
+        meeting,
+        location
+      });
     },
 
     cancelAppoinment: (_, { date }, { user, appointmentAPI }) => {
