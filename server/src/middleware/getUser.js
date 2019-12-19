@@ -2,17 +2,13 @@ const jwt = require("jsonwebtoken");
 const User = require("../models/user");
 
 const getUser = async token => {
-  const res = jwt.verify(token, process.env.JWT_SECRET);
-  if (res) {
-    const user = await User.findOne({ email: res.toLowerCase() });
-    if (user) {
-      return user.email;
-    } else {
-      return;
-    }
-  } else {
-    return;
+  let user = null;
+  if (token) {
+    const email = jwt.verify(token, process.env.JWT_SECRET);
+    user = User.findOne({ email: email.toLowerCase() });
   }
+
+  return user;
 };
 
 module.exports = getUser;

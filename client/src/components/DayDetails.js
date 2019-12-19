@@ -81,8 +81,11 @@ const DayDetails = ({ day, setDay }) => {
   });
 
   useEffect(() => {
+    setAppoinments();
     getAppoinments(day);
   }, [day]);
+
+  //        authorization:"eyJhbGciOiJIUzI1NiJ9.UEFUUklDS0BsZXNzdGhhbjMuY2E.HpyViZsa73-bVyjYl3lIUJrULQkBg0fhVHsRB1tvIkQ"
 
   const getAppoinments = async day => {
     const res = await fetch("http://localhost:4000/graphql", {
@@ -91,12 +94,13 @@ const DayDetails = ({ day, setDay }) => {
       }),
       headers: {
         Accept: "application/json",
-        "Content-Type": "application/json"
+        "Content-Type": "application/json",
+        authorization:
+          "eyJhbGciOiJIUzI1NiJ9.UEFUUklDS0BsZXNzdGhhbjMuY2E.HpyViZsa73-bVyjYl3lIUJrULQkBg0fhVHsRB1tvIkQ"
       },
       method: "POST"
     });
     const json = await res.json();
-
     setAppoinments(json.data.appointments);
   };
 
@@ -122,7 +126,9 @@ const DayDetails = ({ day, setDay }) => {
       }),
       headers: {
         Accept: "application/json",
-        "Content-Type": "application/json"
+        "Content-Type": "application/json",
+        authorization:
+          "eyJhbGciOiJIUzI1NiJ9.UEFUUklDS0BsZXNzdGhhbjMuY2E.HpyViZsa73-bVyjYl3lIUJrULQkBg0fhVHsRB1tvIkQ"
       },
       method: "POST"
     });

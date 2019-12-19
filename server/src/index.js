@@ -26,20 +26,16 @@ mongoose.connection.once("open", () => {
 const app = express();
 app.use(cors());
 
+const context = async ({ req }) => {
+  const token = req.headers.authorization || "";
+  const user = await getUser(token);
+  return { user, appointmentAPI: new AppointmentAPI(), userAPI: new UserAPI() };
+};
+
 const server = new ApolloServer({
   typeDefs,
   resolvers,
-  context: async ({ req }) => {
-    const token = req.headers.authorization || "";
-    const user = await getUser(token);
-    return { user };
-  },
-  dataSources: () => {
-    return {
-      appointmentAPI: new AppointmentAPI(),
-      userAPI: new UserAPI()
-    };
-  }
+  context
 });
 
 server.applyMiddleware({ app, path: "/graphql" });
