@@ -1,5 +1,6 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import styled from "styled-components";
+import { UserContext } from "../context/userContext";
 
 const Container = styled.div`
   height: calc(100vh - 74px);
@@ -54,8 +55,10 @@ const Button = styled.button`
 `;
 
 const SignIn = () => {
+  const [user, setUser] = useContext(UserContext);
   const [loginDetails, setLoginDetails] = useState({});
   const [loading, setLoading] = useState(false);
+  const [message, setMessage] = useState();
 
   const handleChange = e => {
     setLoginDetails({ ...loginDetails, [e.target.name]: e.target.value });
@@ -77,34 +80,39 @@ const SignIn = () => {
       method: "POST"
     });
     const json = await res.json();
-    console.log(json);
+    console.log(json.data.loginUser);
+    if (!json.data.loginUser.success) {
+      setMessage("Incorrect email or password");
+      setLoading(false);
+    } else {
+      setUser(json.data.loginUser.token);
+    }
   };
 
   return (
     <Container>
       <Card>
         <h1>Sign In</h1>
-        {loading ? (
-          <span>hi</span>
-        ) : (
-          <form onSubmit={handleSubmit}>
-            <Input
-              name="email"
-              type="text"
-              placeholder="Email"
-              onChange={handleChange}
-              disabled={loading}
-            />
-            <Input
-              name="password"
-              type="password"
-              placeholder="Password"
-              onChange={handleChange}
-              disabled={loading}
-            />
-            <Button disabled={loading}>Sign In</Button>
-          </form>
-        )}
+        <p style={{ color: "#f2777a" }}>{message}</p>
+        <form onSubmit={handleSubmit}>
+          <Input
+            name="email"
+            type="text"
+            placeholder="Email"
+            onChange={handleChange}
+            disabled={loading}
+          />
+          <Input
+            name="password"
+            type="password"
+            placeholder="Password"
+            onChange={handleChange}
+            disabled={loading}
+          />
+          <Button disabled={loading}>
+            {loading ? "Signing In..." : "Sign In"}
+          </Button>
+        </form>
       </Card>
     </Container>
   );
