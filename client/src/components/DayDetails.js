@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState, Fragment } from "react";
 import styled from "styled-components";
 import { format } from "date-fns";
 import { UserContext } from "../context/userContext";
+import AppointmentDetails from "./AppointmentDetails";
 
 const Container = styled.div`
   position: fixed;
@@ -14,6 +15,13 @@ const Container = styled.div`
   box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
   @media only screen and (max-width: 29.5em) {
     width: calc(100% - 20px);
+  }
+  max-height: 90vh;
+  overflow-y: scroll;
+  overflow-y: -moz-scrollbars-none;
+  -ms-overflow-style: none;
+  &::-webkit-scrollbar {
+    width: 0 !important;
   }
 `;
 
@@ -96,13 +104,11 @@ const DayDetails = ({ day, setDay }) => {
   const getAppoinments = async day => {
     const res = await fetch("http://localhost:4000/graphql", {
       body: JSON.stringify({
-        query: `query{ appointments(date: "${day}"){name email date}}`
+        query: `query{ appointments(date: "${day}"){name email phone date meeting location}}`
       }),
       headers: {
         Accept: "application/json",
-        "Content-Type": "application/json",
-        authorization:
-          "eyJhbGciOiJIUzI1NiJ9.UEFUUklDS0BsZXNzdGhhbjMuY2E.HpyViZsa73-bVyjYl3lIUJrULQkBg0fhVHsRB1tvIkQ"
+        "Content-Type": "application/json"
       },
       method: "POST"
     });
@@ -149,26 +155,9 @@ const DayDetails = ({ day, setDay }) => {
         <CloseBtn name="close" onClick={handleClick} />
         <h2>{format(day, "MMMM do, yyyy")}</h2>
         {appointments && appointments.length > 0 ? (
-          <Grid>
-            {appointments.map(({ date, email, name }) => (
-              <Fragment key={date}>
-                <span>{format(parseInt(date), "h:mm aa")}</span>{" "}
-                <span>{name}</span> <span>{email}</span>
-                <A href={`mailto:${email}`}>Email</A>
-                <Button
-                  alt
-                  name="cancelAppoinment"
-                  onClick={() =>
-                    queryApi(
-                      `mutation{ cancelAppoinment(date: "${date}"){success message}}`
-                    )
-                  }
-                >
-                  Cancel
-                </Button>
-              </Fragment>
-            ))}
-          </Grid>
+          appointments.map((data, count) => (
+            <AppointmentDetails data={data} key={count} count={count} />
+          ))
         ) : (
           <h3>No appointments booked</h3>
         )}
@@ -188,3 +177,5 @@ const DayDetails = ({ day, setDay }) => {
 };
 
 export default DayDetails;
+
+// `mutation{ cancelAppoinment(date: "${date}"){success message}}`
