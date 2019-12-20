@@ -1,8 +1,7 @@
 module.exports = {
   Query: {
-    appointments: (_, { date }, { user, appointmentAPI }) => {
-      return appointmentAPI.getAllAppointments({ date });
-    },
+    appointments: (_, { date }, { user, appointmentAPI }) =>
+      appointmentAPI.getAllAppointments({ date }),
     appointment: (_, { id, name, email, date }, { appointmentAPI }) =>
       appointmentAPI.getAppoinemnt({ id, name, email, date })
   },
@@ -12,16 +11,15 @@ module.exports = {
       _,
       { name, email, phone, date, meeting, location },
       { appointmentAPI }
-    ) => {
-      return appointmentAPI.bookAppoinment({
+    ) =>
+      appointmentAPI.bookAppoinment({
         name,
         email,
         phone,
         date,
         meeting,
         location
-      });
-    },
+      }),
 
     cancelAppoinment: (_, { date }, { user, appointmentAPI }) => {
       if (!user) return null;

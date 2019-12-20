@@ -10,7 +10,10 @@ const typeDefs = gql`
     id: ID!
     name: String!
     email: String
+    phone: String
     date: String!
+    meeting: String
+    location: String
   }
 
   type UserUpdateResponse {

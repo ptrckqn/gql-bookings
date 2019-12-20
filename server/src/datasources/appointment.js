@@ -110,7 +110,10 @@ class AppointmentAPI extends DataSource {
       id: appointment._id || "",
       name: appointment.name || "",
       email: appointment.email || "",
-      date: appointment.date || ""
+      phone: appointment.phone || "",
+      date: appointment.date || "",
+      meeting: appointment.meeting || "",
+      location: appointment.location || ""
     };
   }
 }
