@@ -20,6 +20,9 @@ const Container = styled.div`
   margin: 30px;
   border-radius: 5px;
   padding: 20px;
+  @media only screen and (max-width: 29.5em) {
+    margin: 30px 10px;
+  }
 `;
 
 const Header = styled.div`
@@ -27,6 +30,9 @@ const Header = styled.div`
   justify-content: center;
   align-items: center;
   font-size: 34px;
+  @media only screen and (max-width: 29.5em) {
+    font-size: 26px;
+  }
 `;
 
 const Chevron = styled.div`
@@ -53,6 +59,9 @@ const Chevron = styled.div`
   &::after {
     transform: translate(-50%, -50%) rotate(-45deg);
   }
+  @media only screen and (max-width: 29.5em) {
+    padding: 0 20px;
+  }
 `;
 
 const Grid = styled.div`
@@ -69,6 +78,9 @@ const Days = styled.div`
     text-align: center;
     padding: 20px 0;
   }
+  @media only screen and (max-width: 29.5em) {
+    font-size: 16px;
+  }
 `;
 
 const Day = styled.div`
@@ -81,8 +93,10 @@ const Day = styled.div`
   &:hover {
     background: rgba(255, 255, 255, 0.08);
   }
-  @media only screen and (max-width: 60em) {
-    padding: 15px 0;
+  @media only screen and (max-width: 29.5em) {
+    border: none;
+    text-align: center;
+    padding: 20px 10px;
   }
 `;
 

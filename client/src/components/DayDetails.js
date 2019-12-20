@@ -10,7 +10,11 @@ const Container = styled.div`
   transform: translate(-50%, -50%);
   padding: 20px;
   background: #2d2f34;
-  min-width: 500px;
+  border-radius: 10px;
+  box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
+  @media only screen and (max-width: 29.5em) {
+    width: calc(100% - 20px);
+  }
 `;
 
 const CloseBtn = styled.button`
@@ -63,7 +67,7 @@ const Button = styled.button`
   font-family: inherit;
   padding: 10px 15px;
   border-radius: 20px;
-  margin: 0 7.5px;
+  margin: 7.5px;
   cursor: pointer;
 `;
 

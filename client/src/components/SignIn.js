@@ -31,6 +31,11 @@ const Input = styled.input`
   border-radius: 10px;
   color: #fff;
   margin: 20px auto;
+  &:focus,
+  &:hover {
+    outline: none;
+    background-color: #383b40;
+  }
 `;
 
 const Button = styled.button`
