@@ -78,10 +78,16 @@ const Cancel = styled.button`
   &:hover {
     background-color: #27292d;
   }
+  &:focus {
+    outline: none;
+    color: #fff;
+    border: 1px solid #fff;
+  }
 `;
 
 const AppoinmentDetails = ({
   data: { name, email, phone, date, meeting, location },
+  handleClick,
   count
 }) => {
   return (
@@ -97,7 +103,7 @@ const AppoinmentDetails = ({
         <A href={`tel:${phone}`}>{phone}</A>
         <span>{meeting}</span>
         <span>{location}</span>
-        <Cancel>Cancel Appointment</Cancel>
+        <Cancel onClick={() => handleClick(date)}>Cancel Appointment</Cancel>
       </Content>
     </Container>
   );

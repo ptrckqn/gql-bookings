@@ -69,14 +69,23 @@ const A = styled.a`
 `;
 
 const Button = styled.button`
-  border: none;
-  background-color: #383b40;
-  color: inherit;
-  font-family: inherit;
-  padding: 10px 15px;
-  border-radius: 20px;
-  margin: 7.5px;
+  margin: 10px 10px 0;
   cursor: pointer;
+  align-self: center;
+  color: inherit;
+  background: transparent;
+  border: 1px solid #fff;
+  padding: 5px 10px;
+  border-radius: 10px;
+  &:focus,
+  &:hover {
+    background-color: #27292d;
+  }
+  &:focus {
+    outline: none;
+    color: #afafaf;
+    border: 1px solid #afafaf;
+  }
 `;
 
 const Center = styled.div`
@@ -95,7 +104,6 @@ const DayDetails = ({ day, setDay }) => {
   });
 
   useEffect(() => {
-    setAppoinments();
     getAppoinments(day);
   }, [day]);
 
@@ -131,6 +139,10 @@ const DayDetails = ({ day, setDay }) => {
     }
   };
 
+  const cancelAppointment = date => {
+    queryApi(`mutation{ cancelAppoinment(date: "${date}"){success message}}`);
+  };
+
   const queryApi = async query => {
     const res = await fetch("http://localhost:4000/graphql", {
       body: JSON.stringify({
@@ -156,7 +168,12 @@ const DayDetails = ({ day, setDay }) => {
         <h2>{format(day, "MMMM do, yyyy")}</h2>
         {appointments && appointments.length > 0 ? (
           appointments.map((data, count) => (
-            <AppointmentDetails data={data} key={count} count={count} />
+            <AppointmentDetails
+              data={data}
+              key={count}
+              count={count}
+              handleClick={cancelAppointment}
+            />
           ))
         ) : (
           <h3>No appointments booked</h3>
@@ -177,5 +194,3 @@ const DayDetails = ({ day, setDay }) => {
 };
 
 export default DayDetails;
-
-// `mutation{ cancelAppoinment(date: "${date}"){success message}}`
