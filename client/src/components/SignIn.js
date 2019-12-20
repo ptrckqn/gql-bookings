@@ -66,7 +66,6 @@ const SignIn = () => {
 
   const handleSubmit = async e => {
     e.preventDefault();
-    console.log(loginDetails);
     setLoading(true);
 
     const res = await fetch("http://localhost:4000/graphql", {
@@ -80,7 +79,6 @@ const SignIn = () => {
       method: "POST"
     });
     const json = await res.json();
-    console.log(json.data.loginUser);
     if (!json.data.loginUser.success) {
       setMessage("Incorrect email or password");
       setLoading(false);

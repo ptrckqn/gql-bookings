@@ -1,6 +1,7 @@
-import React, { useEffect, useState, Fragment } from "react";
+import React, { useContext, useEffect, useState, Fragment } from "react";
 import styled from "styled-components";
 import { format } from "date-fns";
+import { UserContext } from "../context/userContext";
 
 const Container = styled.div`
   position: fixed;
@@ -71,6 +72,7 @@ const Center = styled.div`
 `;
 
 const DayDetails = ({ day, setDay }) => {
+  const [user] = useContext(UserContext);
   const [appointments, setAppoinments] = useState();
 
   useEffect(() => {
@@ -127,8 +129,7 @@ const DayDetails = ({ day, setDay }) => {
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json",
-        authorization:
-          "eyJhbGciOiJIUzI1NiJ9.UEFUUklDS0BsZXNzdGhhbjMuY2E.HpyViZsa73-bVyjYl3lIUJrULQkBg0fhVHsRB1tvIkQ"
+        authorization: `Bearer ${user}`
       },
       method: "POST"
     });

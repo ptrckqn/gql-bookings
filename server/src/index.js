@@ -27,7 +27,8 @@ const app = express();
 app.use(cors());
 
 const context = async ({ req }) => {
-  const token = req.headers.authorization || "";
+  const tokenWithBearer = req.headers.authorization || "";
+  const token = tokenWithBearer.split(" ")[1];
   const user = await getUser(token);
   return { user, appointmentAPI: new AppointmentAPI(), userAPI: new UserAPI() };
 };

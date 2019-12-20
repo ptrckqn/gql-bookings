@@ -40,10 +40,6 @@ class UserAPI extends DataSource {
       const match = await bcrypt.compare(password, user.password);
       if (match) {
         const token = jwt.sign(email, process.env.JWT_SECRET);
-        const cert = jwt.verify(token, process.env.JWT_SECRET);
-        if (cert) {
-          //do what you need to do
-        }
         return {
           success: true,
           message: "successfully logged in",

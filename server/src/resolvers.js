@@ -1,6 +1,6 @@
 module.exports = {
   Query: {
-    appointments: (_, { date }, { appointmentAPI }) => {
+    appointments: (_, { date }, { user, appointmentAPI }) => {
       return appointmentAPI.getAllAppointments({ date });
     },
     appointment: (_, { id, name, email, date }, { appointmentAPI }) =>
