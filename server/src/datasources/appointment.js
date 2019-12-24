@@ -78,7 +78,6 @@ class AppointmentAPI extends DataSource {
     while (day < endDay) {
       let appoinment = new Appointment({
         name: "UNAVAILABLE",
-        email: "UNAVAILABLE",
         date: new Date(day)
       });
 

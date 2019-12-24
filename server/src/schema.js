@@ -28,7 +28,7 @@ const typeDefs = gql`
       email: String
       phone: String
       date: String!
-      meeting: String!
+      meeting: String
       location: String
     ): BookingUpdateResponse!
     cancelAppoinment(date: String!): BookingUpdateResponse!

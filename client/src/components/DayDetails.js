@@ -111,6 +111,7 @@ const DayDetails = ({ day, setDay }) => {
   //        authorization:"eyJhbGciOiJIUzI1NiJ9.UEFUUklDS0BsZXNzdGhhbjMuY2E.HpyViZsa73-bVyjYl3lIUJrULQkBg0fhVHsRB1tvIkQ"
 
   const getAppoinments = async day => {
+    setAvailableTimes([]);
     const res = await fetch("http://localhost:4000/graphql", {
       body: JSON.stringify({
         query: `query{ appointments(date: "${day}"){name email phone date meeting location}}`
@@ -212,13 +213,22 @@ const DayDetails = ({ day, setDay }) => {
         </Container>
         {coordinates.length > 0 && (
           <Popover coordinates={coordinates} setCoordinates={setCoordinates}>
-            {availableTimes.length > 0 &&
-              availableTimes.map((time, count) => (
-                <Option key={count}>{format(time, "h:mm a")}</Option>
-              ))}
             <Option name="blockDay" onClick={handleClick}>
               All
             </Option>
+            {availableTimes.length > 0 &&
+              availableTimes.map((time, count) => (
+                <Option
+                  key={count}
+                  onClick={() =>
+                    queryApi(
+                      `mutation {bookAppoinment(name: "UNAVAILABLE", date: "${time}"){success message}}`
+                    )
+                  }
+                >
+                  {format(time, "h:mm a")}
+                </Option>
+              ))}
           </Popover>
         )}
       </>
