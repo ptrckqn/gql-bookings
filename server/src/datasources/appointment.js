@@ -6,7 +6,8 @@ const {
   setHours,
   startOfHour,
   addHours,
-  parseISO
+  parseISO,
+  isSameHour
 } = require("date-fns");
 
 class AppointmentAPI extends DataSource {
@@ -73,15 +74,18 @@ class AppointmentAPI extends DataSource {
   }
 
   async bookDay({ date }) {
+    const allApps = await this.getAllAppointments(date);
     let day = setHours(new Date(date), 9);
     const endDay = setHours(day, 17);
     while (day < endDay) {
-      let appoinment = new Appointment({
-        name: "UNAVAILABLE",
-        date: new Date(day)
-      });
+      if (!allApps.some(e => isSameHour(e.date, day))) {
+        let appoinment = new Appointment({
+          name: "UNAVAILABLE",
+          date: new Date(day)
+        });
 
-      const res = await appoinment.save();
+        const res = await appoinment.save();
+      }
 
       day = addHours(day, 1);
     }
