@@ -1,8 +1,9 @@
-import React, { useContext, useEffect, useState, Fragment } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import styled from "styled-components";
-import { format } from "date-fns";
+import { format, setHours, addHours, startOfHour, isSameHour } from "date-fns";
 import { UserContext } from "../context/userContext";
 import AppointmentDetails from "./AppointmentDetails";
+import Popover from "./Popover";
 
 const Container = styled.div`
   position: fixed;
@@ -52,20 +53,18 @@ const CloseBtn = styled.button`
   }
 `;
 
-const Grid = styled.div`
-  display: grid;
-  grid-template-columns: repeat(3, 1fr) 100px 100px;
-  grid-gap: 15px;
-  padding: 20px 0;
-`;
-const A = styled.a`
-  background-color: #383b40;
-  padding: 10px 15px;
-  border-radius: 20px;
+const Option = styled.button`
+  display: block;
+  border: none;
+  background-color: transparent;
   color: inherit;
-  text-align: center;
-  text-decoration: none;
+  cursor: pointer;
   width: 100%;
+  text-align: left;
+  padding: 5px 10px;
+  &:hover {
+    background-color: #4c4f54;
+  }
 `;
 
 const Button = styled.button`
@@ -95,13 +94,15 @@ const Center = styled.div`
 const DayDetails = ({ day, setDay }) => {
   const [user] = useContext(UserContext);
   const [appointments, setAppoinments] = useState();
+  const [coordinates, setCoordinates] = useState([]);
+  const [availableTimes, setAvailableTimes] = useState([]);
 
   useEffect(() => {
     //Creating an event listener which will call the function escFunction anytime a key is pressed.
     document.addEventListener("keydown", e =>
       e.keyCode === 27 ? setDay() : null
     );
-  });
+  }, []);
 
   useEffect(() => {
     getAppoinments(day);
@@ -122,6 +123,20 @@ const DayDetails = ({ day, setDay }) => {
     });
     const json = await res.json();
     setAppoinments(json.data.appointments);
+
+    let hour = startOfHour(setHours(day, 9));
+    const endHour = startOfHour(setHours(day, 17));
+
+    while (hour < endHour) {
+      if (
+        !json.data.appointments.some(e =>
+          isSameHour(new Date(parseInt(e.date)), hour)
+        )
+      ) {
+        setAvailableTimes(prevState => [...prevState, hour]);
+      }
+      hour = addHours(hour, 1);
+    }
   };
 
   const handleClick = e => {
@@ -134,6 +149,12 @@ const DayDetails = ({ day, setDay }) => {
         );
       case "close":
         return setDay();
+      case "openDropdown":
+        setCoordinates([
+          e.target.getBoundingClientRect().x,
+          e.target.getBoundingClientRect().y
+        ]);
+        return;
       default:
         return;
     }
@@ -156,6 +177,7 @@ const DayDetails = ({ day, setDay }) => {
       method: "POST"
     });
     const json = await res.json();
+    console.log(json);
     const tempDay = day;
     setDay();
     setDay(tempDay);
@@ -163,30 +185,43 @@ const DayDetails = ({ day, setDay }) => {
 
   if (day) {
     return (
-      <Container>
-        <CloseBtn name="close" onClick={handleClick} />
-        <h2>{format(day, "MMMM do, yyyy")}</h2>
-        {appointments && appointments.length > 0 ? (
-          appointments.map((data, count) => (
-            <AppointmentDetails
-              data={data}
-              key={count}
-              count={count}
-              handleClick={cancelAppointment}
-            />
-          ))
-        ) : (
-          <h3>No appointments booked</h3>
+      <>
+        <Container>
+          <CloseBtn name="close" onClick={handleClick} />
+          <h2>{format(day, "MMMM do, yyyy")}</h2>
+          {appointments && appointments.length > 0 ? (
+            appointments.map((data, count) => (
+              <AppointmentDetails
+                data={data}
+                key={count}
+                count={count}
+                handleClick={cancelAppointment}
+              />
+            ))
+          ) : (
+            <h3>No appointments booked</h3>
+          )}
+          <Center>
+            <Button name="openDropdown" id="blockButton" onClick={handleClick}>
+              Block Times
+            </Button>
+            <Button name="cancelDay" onClick={handleClick}>
+              Cancel All Appointments
+            </Button>
+          </Center>
+        </Container>
+        {coordinates.length > 0 && (
+          <Popover coordinates={coordinates} setCoordinates={setCoordinates}>
+            {availableTimes.length > 0 &&
+              availableTimes.map((time, count) => (
+                <Option key={count}>{format(time, "h:mm a")}</Option>
+              ))}
+            <Option name="blockDay" onClick={handleClick}>
+              All
+            </Option>
+          </Popover>
         )}
-        <Center>
-          <Button name="blockDay" onClick={handleClick}>
-            Block All Times
-          </Button>
-          <Button name="cancelDay" onClick={handleClick}>
-            Cancel All Appointments
-          </Button>
-        </Center>
-      </Container>
+      </>
     );
   } else {
     return null;

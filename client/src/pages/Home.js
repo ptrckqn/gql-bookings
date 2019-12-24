@@ -5,7 +5,7 @@ import SignIn from "../components/SignIn";
 
 const Home = () => {
   const [user] = useContext(UserContext);
-  if (!user) return <SignIn />;
+  if (user) return <SignIn />;
   return <Calendar />;
 };
 
