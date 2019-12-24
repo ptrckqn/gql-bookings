@@ -178,7 +178,6 @@ const DayDetails = ({ day, setDay }) => {
       method: "POST"
     });
     const json = await res.json();
-    console.log(json);
     const tempDay = day;
     setDay();
     setDay(tempDay);
