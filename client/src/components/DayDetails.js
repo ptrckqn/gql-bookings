@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 import styled from "styled-components";
 import { format, setHours, addHours, startOfHour, isSameHour } from "date-fns";
 import { UserContext } from "../context/userContext";
+import { DbContext } from "../context/dbContext";
 import AppointmentDetails from "./AppointmentDetails";
 import Popover from "./Popover";
 
@@ -93,6 +94,7 @@ const Center = styled.div`
 
 const DayDetails = ({ day, setDay }) => {
   const [user] = useContext(UserContext);
+  const [db] = useContext(DbContext);
   const [appointments, setAppoinments] = useState();
   const [coordinates, setCoordinates] = useState([]);
   const [availableTimes, setAvailableTimes] = useState([]);
@@ -112,7 +114,7 @@ const DayDetails = ({ day, setDay }) => {
 
   const getAppoinments = async day => {
     setAvailableTimes([]);
-    const res = await fetch("http://localhost:4000/graphql", {
+    const res = await fetch(db, {
       body: JSON.stringify({
         query: `query{ appointments(date: "${day}"){name email phone date meeting location}}`
       }),
@@ -166,7 +168,7 @@ const DayDetails = ({ day, setDay }) => {
   };
 
   const queryApi = async query => {
-    const res = await fetch("http://localhost:4000/graphql", {
+    const res = await fetch(db, {
       body: JSON.stringify({
         query: query
       }),

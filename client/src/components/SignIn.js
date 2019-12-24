@@ -1,6 +1,7 @@
 import React, { useContext, useState } from "react";
 import styled from "styled-components";
 import { UserContext } from "../context/userContext";
+import { DbContext } from "../context/dbContext";
 
 const Container = styled.div`
   height: calc(100vh - 74px);
@@ -39,7 +40,7 @@ const Input = styled.input`
 `;
 
 const Button = styled.button`
-  margin: 20px auto 0;
+  margin: 20px auto;
   border-radius: 20px;
   border: 1px solid #2d2f34;
   background-color: #2d2f34;
@@ -59,8 +60,17 @@ const Button = styled.button`
   }
 `;
 
+const AltButton = styled.button`
+  cursor: pointer;
+  color: inherit;
+  text-decoration: underline;
+  border: none;
+  background-color: transparent;
+`;
+
 const SignIn = () => {
   const [user, setUser] = useContext(UserContext);
+  const [db, setDb] = useContext(DbContext);
   const [loginDetails, setLoginDetails] = useState({});
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState();
@@ -73,7 +83,7 @@ const SignIn = () => {
     e.preventDefault();
     setLoading(true);
 
-    const res = await fetch("http://localhost:4000/graphql", {
+    const res = await fetch(db, {
       body: JSON.stringify({
         query: `mutation{ loginUser(email: "${loginDetails.email}", password: "${loginDetails.password}"){success message token}}`
       }),
@@ -116,6 +126,7 @@ const SignIn = () => {
             {loading ? "Signing In..." : "Sign In"}
           </Button>
         </form>
+        <AltButton onClick={() => setDb(null)}>Change database</AltButton>
       </Card>
     </Container>
   );

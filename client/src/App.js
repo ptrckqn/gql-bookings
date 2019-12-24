@@ -2,6 +2,7 @@ import React from "react";
 import { Switch, Route } from "react-router-dom";
 import { createGlobalStyle } from "styled-components";
 import { UserContextProvider } from "./context/userContext";
+import { DbContextProvider } from "./context/dbContext";
 import Nav from "./components/Nav";
 import Home from "./pages/Home";
 
@@ -26,13 +27,15 @@ const GlobalStyles = createGlobalStyle`
 
 const App = () => {
   return (
-    <UserContextProvider>
-      <GlobalStyles />
-      <Nav />
-      <Switch>
-        <Route path="/" exact component={Home} />
-      </Switch>
-    </UserContextProvider>
+    <DbContextProvider>
+      <UserContextProvider>
+        <GlobalStyles />
+        <Nav />
+        <Switch>
+          <Route path="/" exact component={Home} />
+        </Switch>
+      </UserContextProvider>
+    </DbContextProvider>
   );
 };
 
