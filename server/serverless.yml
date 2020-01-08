@@ -2,7 +2,7 @@ service: ventrek-bookings
 
 provider:
   name: aws
-  runtime: nodejs10.x
+  runtime: nodejs12.x
   region: us-west-2
 functions:
   graphql:
