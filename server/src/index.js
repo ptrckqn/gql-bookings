@@ -14,10 +14,13 @@ if (process.env.NODE_ENV !== "production") {
   require("dotenv").config();
 }
 
-mongoose.connect(process.env.MONGODB_URI, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true
-});
+mongoose.connect(
+  "mongodb+srv://dev:UO8vc8qhShQ113Kt@lt3-bookings-dev-n66de.mongodb.net/test?retryWrites=true&w=majority",
+  {
+    useNewUrlParser: true,
+    useUnifiedTopology: true
+  }
+);
 
 mongoose.connection.once("open", () => {
   console.log("Connected to database");

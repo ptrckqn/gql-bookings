@@ -9,7 +9,6 @@ const {
   parseISO,
   isSameHour
 } = require("date-fns");
-const { utcToZonedTime } = require("date-fns-tz");
 
 class AppointmentAPI extends DataSource {
   async getAllAppointments({ date }) {
@@ -77,12 +76,7 @@ class AppointmentAPI extends DataSource {
   async bookDay({ date }) {
     const allApps = await this.getAllAppointments(date);
     let day = setHours(new Date(date), 9);
-    let endDay = setHours(day, 17);
-
-    // Convert UTC to specific timezone
-    const TIMEZONE = "America/Edmonton";
-    day = utcToZonedTime(day, TIMEZONE);
-    endDay = utcToZonedTime(endDay, TIMEZONE);
+    const endDay = setHours(day, 17);
 
     while (day < endDay) {
       if (!allApps.some(e => isSameHour(e.date, day))) {
